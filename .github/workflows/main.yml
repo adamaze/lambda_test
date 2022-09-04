@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+    - main
+
+env:
+  STACK_NAME: LambdaTestStack
+  LAMBDA_BUCKET: adam-lambda-bucket
+  FUNCTION_NAME: lambda_test
+
+jobs:
+  deploy_lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: deploy
+        run: |
+          zip -j deploy.zip ./*
+          #aws cloudformation package --template-file cfn.yml --s3-bucket ${LAMBDA_BUCKET} --output-template-file cfn.packaged.yml
+          #aws cloudformation deploy --template-file cfn.packaged.yml --stack-name ${STACK_NAME} --capabilities CAPABILITY_IAM
+          aws lambda update-function-code --function-name=${FUNCTION_NAME} --zip-file=fileb://deploy.zip
