@@ -29,7 +29,7 @@ jobs:
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
-            bucket=iuselfkjnlidsg
+            bucket=${LAMBDA_BUCKET}
       - name: zip and sync
         run: |
           zip -j deploy.zip ./functions/*
