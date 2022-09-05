@@ -5,7 +5,7 @@ Parameters:
   bucket:
     Description: Bucket Name
     Type: String
-    default: adam-test-lambda-bucket 
+    Default: adam-test-lambda-bucket 
 
 Resources:
   TheLambdaManagedPolicy:
