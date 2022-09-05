@@ -7,7 +7,7 @@ on:
 
 env:
   STACK_NAME: LambdaTestStack
-  LAMBDA_BUCKET: adam-lambda-bucket
+  LAMBDA_BUCKET: adam-test-lambda-bucket
   FUNCTION_NAME: lambda_test
 
 jobs:
@@ -21,15 +21,20 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      - name: zip
+      - name: Deploy CFT for S3 Bucket
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: S3-Bucket
+          template: s3_cft.yml
+      - name: zip and sync
         run: |
           zip -j deploy.zip ./*
           #aws cloudformation package --template-file cfn.yml --s3-bucket ${LAMBDA_BUCKET} --output-template-file cfn.packaged.yml
           #aws cloudformation deploy --template-file cfn.packaged.yml --stack-name ${STACK_NAME} --capabilities CAPABILITY_IAM
           #aws lambda update-function-code --function-name=${FUNCTION_NAME} --zip-file=fileb://deploy.zip
-      - name: AWS CloudFormation "Deploy CloudFormation Stack" Action for GitHub Actions
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
-        with:
-          name: AdamTestStack
-          template: cft.yml
-
+          aws s3 cp deploy.zip s3://${LAMBDA_BUCKET}/
+#      - name: Deploy CFT for lambda function
+#        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+#        with:
+#          name: lambda-function
+#          template: lambda_cft.yml
