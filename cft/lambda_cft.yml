@@ -4,6 +4,8 @@ Description: Lambda Deployment
 Parameters:
   bucket:
     Type: String
+  environment:
+    Type: String
 
 Resources:
   TheLambdaManagedPolicy:
