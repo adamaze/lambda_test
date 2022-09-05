@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: adamtestdescription
+Description: S3 Bucket Deployment
 
 Resources:
   S3Bucket:

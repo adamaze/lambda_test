@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: adamtestdescription
+Description: Lambda Deployment
 
 Parameters:
   bucket:
@@ -45,7 +45,7 @@ Resources:
   TheLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: bee
+      FunctionName: adamtest
       Handler: hello.handler
       Role: !GetAtt TheLambdaRole.Arn
       Code:
