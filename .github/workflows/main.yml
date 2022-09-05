@@ -25,7 +25,7 @@ jobs:
       - name: Deploy CFT for S3 Bucket
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: ${{ github.ref }}
+          name: ${{ github.ref_name }}
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
