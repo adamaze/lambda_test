@@ -8,8 +8,9 @@ on:
 
 env:
   STACK_NAME: LambdaStack-${{ github.ref_name }}
-  LAMBDA_BUCKET: "lambda-bucket-keug-${{ github.ref_name }}"
+  LAMBDA_BUCKET: lambda-bucket-keug-${{ github.ref_name }}
   FUNCTION_NAME: lambda-${{ github.ref_name }}
+  ENVIRONMENT: ${{ github.ref_name }}
 
 jobs:
   deploy_lambda:
@@ -25,15 +26,15 @@ jobs:
       - name: Deploy CFT for S3 Bucket
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: ${{ github.ref_name }}
+          name: ${{ env.ENVIRONMENT }}
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
-            bucket=lambda-bucket-keug-${{ github.ref_name }}
+            bucket=${{ env.LAMBDA_BUCKET }}
       - name: zip and sync
         run: |
           zip -j deploy.zip ./functions/*
-          aws s3 cp deploy.zip s3://${LAMBDA_BUCKET}/
+          aws s3 cp deploy.zip s3://${{ env.LAMBDA_BUCKET }}/
       - name: Deploy CFT for lambda function
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
@@ -42,5 +43,5 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
-            environment=${{ github.ref_name }}
+            environment=${{ env.ENVIRONMENT }}
             bucket=${{ env.LAMBDA_BUCKET }}
