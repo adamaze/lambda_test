@@ -28,8 +28,8 @@ jobs:
           name: S3-Bucket
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
-        parameter-overrides: >-
-          bucket=lamda-bucket-${GITHUB_REF##}
+          parameter-overrides: >-
+            bucket=lamda-bucket-${GITHUB_REF##}
       - name: zip and sync
         run: |
           zip -j deploy.zip ./functions/*
@@ -41,6 +41,6 @@ jobs:
           template: cft/lambda_cft.yml
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_NAMED_IAM
-        parameter-overrides: >-
-          environment=${GITHUB_REF##}
-          bucket=lamda-bucket-${GITHUB_REF##}
+          parameter-overrides: >-
+            environment=${GITHUB_REF##}
+            bucket=lamda-bucket-${GITHUB_REF##}
