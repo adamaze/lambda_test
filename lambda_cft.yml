@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: adamtestdescription
+
+Parameters:
+  bucket:
+    Description: Bucket Name
+    Type: Strng
+    default: adam-test-lambda-bucket 
+
+Resources:
+  TheLambdaManagedPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: lambda-policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: logs:CreateLogGroup
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource:
+            - arn:aws:logs:*:*:log-group:/aws/lambda/lambda_test:*
+
+  TheLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: TheLambdaRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - !Ref TheLambdaManagedPolicy
+
+  TheLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: adamtestfunction
+      Handler: hello.handler
+      Role: !Ref TheLambdaRole
+      Code:
+        S3Bucket: !Ref bucket
+        S3Key: deploy.zip
+      Runtime: provided.al2 
+  FunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties: 
+      AuthType: NONE
+      TargetFunctionArn: !Ref TheLambdaFunction
