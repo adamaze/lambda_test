@@ -7,7 +7,7 @@ on:
     - main
 
 env:
-  STACK_NAME: LambdaStack-${GITHUB_REF##}
+  STACK_NAME: LambdaStack-${GITHUB_REF}
   LAMBDA_BUCKET: "lambda-bucket${GITHUB_REF_NAME}"
   FUNCTION_NAME: lambda-${GITHUB_REF##}
 
@@ -25,7 +25,7 @@ jobs:
       - name: Deploy CFT for S3 Bucket
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: S3-Bucket-${GITHUB_REF_NAME}
+          name: "S3-Bucket${GITHUB_REF_NAME}"
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
