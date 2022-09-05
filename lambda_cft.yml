@@ -45,13 +45,14 @@ Resources:
   TheLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: adamtestfunction
+      FunctionName: bee
       Handler: hello.handler
       Role: !Ref TheLambdaRole
       Code:
         S3Bucket: !Ref bucket
         S3Key: deploy.zip
       Runtime: provided.al2 
+
   FunctionUrl:
     Type: AWS::Lambda::Url
     Properties: 
