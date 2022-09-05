@@ -8,4 +8,7 @@ Resources:
       BucketName: adam-test-lambda-bucket
       AccessControl: Private
       PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
         RestrictPublicBuckets: true
