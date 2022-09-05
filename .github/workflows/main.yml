@@ -40,3 +40,4 @@ jobs:
           name: lambda-function
           template: lambda_cft.yml
           no-fail-on-empty-changeset: "1"
+          capabilities: CAPABILITY_NAMED_IAM
