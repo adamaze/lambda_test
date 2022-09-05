@@ -21,9 +21,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      - name: deploy
+      - name: zip
         run: |
           zip -j deploy.zip ./*
           #aws cloudformation package --template-file cfn.yml --s3-bucket ${LAMBDA_BUCKET} --output-template-file cfn.packaged.yml
           #aws cloudformation deploy --template-file cfn.packaged.yml --stack-name ${STACK_NAME} --capabilities CAPABILITY_IAM
-          aws lambda update-function-code --function-name=${FUNCTION_NAME} --zip-file=fileb://deploy.zip
+          #aws lambda update-function-code --function-name=${FUNCTION_NAME} --zip-file=fileb://deploy.zip
+      - name: AWS CloudFormation "Deploy CloudFormation Stack" Action for GitHub Actions
+        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+        with:
+          name: AdamTestStack
+          template: cft.yml
+
