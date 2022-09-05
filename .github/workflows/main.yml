@@ -37,7 +37,7 @@ jobs:
       - name: Deploy CFT for lambda function
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: !Ref FUNCTION_NAME
+          name: ${FUNCTION_NAME}
           template: cft/lambda_cft.yml
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_NAMED_IAM
