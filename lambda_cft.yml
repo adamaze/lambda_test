@@ -58,3 +58,11 @@ Resources:
     Properties: 
       AuthType: NONE
       TargetFunctionArn: !Ref TheLambdaFunction
+
+  LambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunctionUrl
+      FunctionName: !Ref TheLambdaFunction
+      FunctionUrlAuthType: NONE
+      Principal: *
