@@ -3,7 +3,6 @@ Description: Lambda Deployment
 
 Parameters:
   bucket:
-    Description: Bucket Name
     Type: String
 
 Resources:
