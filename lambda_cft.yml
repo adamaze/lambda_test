@@ -4,7 +4,7 @@ Description: adamtestdescription
 Parameters:
   bucket:
     Description: Bucket Name
-    Type: Strng
+    Type: String
     default: adam-test-lambda-bucket 
 
 Resources:
