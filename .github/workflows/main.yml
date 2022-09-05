@@ -8,7 +8,7 @@ on:
 
 env:
   STACK_NAME: LambdaStack-${{ github.ref_name }}
-  LAMBDA_BUCKET: "lambda-bucket-${{ github.ref_name }}"
+  LAMBDA_BUCKET: "lambda-bucket-keug-${{ github.ref_name }}"
   FUNCTION_NAME: lambda-${{ github.ref_name }}
 
 jobs:
