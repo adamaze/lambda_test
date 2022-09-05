@@ -7,9 +7,9 @@ on:
     - main
 
 env:
-  STACK_NAME: LambdaStack-${GITHUB_REF}
-  LAMBDA_BUCKET: "lambda-bucket${GITHUB_REF_NAME}"
-  FUNCTION_NAME: lambda-${GITHUB_REF##}
+  STACK_NAME: LambdaStack-${{ github.ref_name }}
+  LAMBDA_BUCKET: "lambda-bucket${{ github.ref_name }}"
+  FUNCTION_NAME: lambda-${{ github.ref_name }}
 
 jobs:
   deploy_lambda:
@@ -29,7 +29,7 @@ jobs:
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
-            bucket=lamda-bucket-${{ github.ref }}
+            bucket=lamda-bucket-${{ github.ref_name }}
       - name: zip and sync
         run: |
           zip -j deploy.zip ./functions/*
@@ -42,5 +42,5 @@ jobs:
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
-            environment=${{ github.ref }}
-            bucket=lamda-bucket-${{ github.ref }}
+            environment=${{ github.ref_name }}
+            bucket=lamda-bucket-${{ github.ref_name }}
