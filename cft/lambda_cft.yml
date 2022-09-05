@@ -5,13 +5,12 @@ Parameters:
   bucket:
     Description: Bucket Name
     Type: String
-    Default: adam-test-lambda-bucket 
 
 Resources:
   TheLambdaManagedPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
-      ManagedPolicyName: lambda-policy
+      ManagedPolicyName: !Sub 'The-Lambda-Policy-${environment}'
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -28,7 +27,7 @@ Resources:
   TheLambdaRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: TheLambdaRole
+      RoleName: !Sub 'TheLambdaRole-${environment}'
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -45,7 +44,7 @@ Resources:
   TheLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: adamtest
+      FunctionName: !Sub 'The-Function-${environment}'
       Handler: hello.handler
       Role: !GetAtt TheLambdaRole.Arn
       Code:

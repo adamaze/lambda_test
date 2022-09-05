@@ -3,12 +3,13 @@ name: Deploy
 on:
   push:
     branches:
+    - dev
     - main
 
 env:
-  STACK_NAME: LambdaTestStack
-  LAMBDA_BUCKET: adam-test-lambda-bucket
-  FUNCTION_NAME: lambda_test
+  STACK_NAME: LambdaStack-${GITHUB_REF##}
+  LAMBDA_BUCKET: lambda-bucket-${GITHUB_REF##}
+  FUNCTION_NAME: lambda-${GITHUB_REF##}
 
 jobs:
   deploy_lambda:
@@ -25,19 +26,21 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           name: S3-Bucket
-          template: s3_cft.yml
+          template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
+        parameter-overrides: >-
+          bucket=lamda-bucket-${GITHUB_REF##}
       - name: zip and sync
         run: |
-          zip -j deploy.zip ./*
-          #aws cloudformation package --template-file cfn.yml --s3-bucket ${LAMBDA_BUCKET} --output-template-file cfn.packaged.yml
-          #aws cloudformation deploy --template-file cfn.packaged.yml --stack-name ${STACK_NAME} --capabilities CAPABILITY_IAM
-          #aws lambda update-function-code --function-name=${FUNCTION_NAME} --zip-file=fileb://deploy.zip
+          zip -j deploy.zip ./functions/*
           aws s3 cp deploy.zip s3://${LAMBDA_BUCKET}/
       - name: Deploy CFT for lambda function
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           name: lambda-function
-          template: lambda_cft.yml
+          template: cft/lambda_cft.yml
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_NAMED_IAM
+        parameter-overrides: >-
+          environment=${GITHUB_REF##}
+          bucket=lamda-bucket-${GITHUB_REF##}
