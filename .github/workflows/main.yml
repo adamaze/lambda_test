@@ -43,4 +43,4 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
             environment=${{ github.ref_name }}
-            bucket=${LAMBDA_BUCKET}
+            bucket=${{ env.LAMBDA_BUCKET }}
