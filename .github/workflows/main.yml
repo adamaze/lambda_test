@@ -7,7 +7,8 @@ on:
     - main
 
 env:
-  STACK_NAME: LambdaStack-${{ github.ref_name }}
+  LAMBDA_STACK_NAME: Lambda-Stack-${{ github.ref_name }}
+  S3_STACK_NAME: S3-Stack-${{ github.ref_name }}
   LAMBDA_BUCKET: lambda-bucket-keug-${{ github.ref_name }}
   FUNCTION_NAME: lambda-${{ github.ref_name }}
   ENVIRONMENT: ${{ github.ref_name }}
@@ -26,7 +27,7 @@ jobs:
       - name: Deploy CFT for S3 Bucket
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: ${{ env.ENVIRONMENT }}
+          name: ${{ env.S3_STACK_NAME }}
           template: cft/s3_cft.yml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
@@ -38,7 +39,7 @@ jobs:
       - name: Deploy CFT for lambda function
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
-          name: ${{ env.FUNCTION_NAME }}
+          name: ${{ env.LAMBDA_STACK_NAME }}
           template: cft/lambda_cft.yml
           no-fail-on-empty-changeset: "1"
           capabilities: CAPABILITY_NAMED_IAM
