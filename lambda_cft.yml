@@ -47,7 +47,7 @@ Resources:
     Properties:
       FunctionName: bee
       Handler: hello.handler
-      Role: !Ref TheLambdaRole
+      Role: !GetAtt TheLambdaRole.Arn
       Code:
         S3Bucket: !Ref bucket
         S3Key: deploy.zip
