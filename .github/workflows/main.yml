@@ -8,7 +8,7 @@ on:
 
 env:
   STACK_NAME: LambdaStack-${GITHUB_REF##}
-  LAMBDA_BUCKET: lambda-bucket-${GITHUB_REF_NAME}
+  LAMBDA_BUCKET: "lambda-bucket-${GITHUB_REF_NAME}"
   FUNCTION_NAME: lambda-${GITHUB_REF##}
 
 jobs:
