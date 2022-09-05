@@ -1,11 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: S3 Bucket Deployment
 
+Parameters:
+  bucket:
+    Type: String
+
 Resources:
   S3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: adam-test-lambda-bucket
+      BucketName: !Ref bucket
       AccessControl: Private
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
