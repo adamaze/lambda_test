@@ -47,7 +47,7 @@ Resources:
   TheLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Sub function_name
+      FunctionName: !Sub $function_name
       Handler: hello.handler
       Role: !GetAtt TheLambdaRole.Arn
       Code:
