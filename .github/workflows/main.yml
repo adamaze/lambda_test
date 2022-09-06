@@ -10,7 +10,7 @@ env:
   LAMBDA_STACK_NAME: Lambda-Stack-${{ github.ref_name }}
   S3_STACK_NAME: S3-Stack-${{ github.ref_name }}
   LAMBDA_BUCKET: lambda-bucket-keug-${{ github.ref_name }}
-  FUNCTION_NAME: lambda-${{ github.ref_name }}
+  FUNCTION_NAME: The-Function-${{ github.ref_name }}
   ENVIRONMENT: ${{ github.ref_name }}
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
           parameter-overrides: >-
             bucket=${{ env.LAMBDA_BUCKET }},
             environment=${{ env.ENVIRONMENT }}
+            function_name=${{ env.FUNCTION_NAME }}
       - name: redeploy lambda if needed, as CFT wont do it on a code change
         run: |
-          aws s3 cp deploy.zip s3://${{ env.LAMBDA_BUCKET }}/
           aws lambda update-function-code --function-name=${{ env.FUNCTION_NAME }} --s3-bucket ${{ env.LAMBDA_BUCKET }} --s3-key deploy.zip
