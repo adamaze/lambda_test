@@ -6,6 +6,8 @@ Parameters:
     Type: String
   environment:
     Type: String
+  FunctionName:
+    Type: String
 
 Resources:
   TheLambdaManagedPolicy:
@@ -45,7 +47,7 @@ Resources:
   TheLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: !Sub 'The-Function-${environment}'
+      FunctionName: !Sub '${FunctionName}'
       Handler: hello.handler
       Role: !GetAtt TheLambdaRole.Arn
       Code:
