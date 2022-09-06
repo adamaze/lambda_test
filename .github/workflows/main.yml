@@ -46,3 +46,7 @@ jobs:
           parameter-overrides: >-
             bucket=${{ env.LAMBDA_BUCKET }},
             environment=${{ env.ENVIRONMENT }}
+      - name: redeploy lambda if needed, as CFT wont do it on a code change
+        run: |
+          aws s3 cp deploy.zip s3://${{ env.LAMBDA_BUCKET }}/
+          aws lambda update-function-code --function-name=${{ env.FUNCTION_NAME }} --s3-bucket ${{ env.LAMBDA_BUCKET }} --s3-key deploy.zip
