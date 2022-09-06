@@ -45,7 +45,7 @@ jobs:
           capabilities: CAPABILITY_NAMED_IAM
           parameter-overrides: >-
             bucket=${{ env.LAMBDA_BUCKET }},
-            environment=${{ env.ENVIRONMENT }}
+            environment=${{ env.ENVIRONMENT }},
             function_name=${{ env.FUNCTION_NAME }}
       - name: redeploy lambda if needed, as CFT wont do it on a code change
         run: |
