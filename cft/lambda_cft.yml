@@ -26,6 +26,11 @@ Resources:
             - logs:PutLogEvents
             Resource:
             - arn:aws:logs:*:*:log-group:/aws/lambda/lambda_test:*
+          - Effect: Allow
+            Action:
+              - "*"
+            Resource:
+              - !Join ['', ["arn:aws:s3:::", !Sub ${bucket}, "/*"]]
 
   TheLambdaRole:
     Type: 'AWS::IAM::Role'
