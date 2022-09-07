@@ -59,6 +59,10 @@ Resources:
         S3Bucket: !Ref bucket
         S3Key: deploy.zip
       Runtime: provided.al2 
+      Environment:
+        Variables:
+          bucket: !Sub '${bucket}'
+          environment: !Sub '${environment}'
 
   FunctionUrl:
     Type: AWS::Lambda::Url
