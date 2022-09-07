@@ -30,7 +30,7 @@ Resources:
             Action:
               - "*"
             Resource:
-              - !Join ['', ["arn:aws:s3:::", !Sub ${bucket}, "/*"]]
+              - !Join ['', ["arn:aws:s3:::", !Ref bucket, "/*"]]
 
   TheLambdaRole:
     Type: 'AWS::IAM::Role'
